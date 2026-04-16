@@ -10,7 +10,8 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta1 "github.com/upbound/provider-azuread/v2/apis/cluster/administrativeunits/v1beta1"
+	v1beta1 "github.com/upbound/provider-azuread/v2/apis/cluster/accesspackages/v1beta1"
+	v1beta1administrativeunits "github.com/upbound/provider-azuread/v2/apis/cluster/administrativeunits/v1beta1"
 	v1beta1app "github.com/upbound/provider-azuread/v2/apis/cluster/app/v1beta1"
 	v1beta1applications "github.com/upbound/provider-azuread/v2/apis/cluster/applications/v1beta1"
 	v1beta2 "github.com/upbound/provider-azuread/v2/apis/cluster/applications/v1beta2"
@@ -36,6 +37,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1beta1administrativeunits.SchemeBuilder.AddToScheme,
 		v1beta1app.SchemeBuilder.AddToScheme,
 		v1beta1applications.SchemeBuilder.AddToScheme,
 		v1beta2.SchemeBuilder.AddToScheme,

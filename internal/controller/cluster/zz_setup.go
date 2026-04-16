@@ -9,6 +9,12 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	accesspackage "github.com/upbound/provider-azuread/v2/internal/controller/cluster/accesspackages/accesspackage"
+	accesspackageassignmentpolicy "github.com/upbound/provider-azuread/v2/internal/controller/cluster/accesspackages/accesspackageassignmentpolicy"
+	accesspackagecatalog "github.com/upbound/provider-azuread/v2/internal/controller/cluster/accesspackages/accesspackagecatalog"
+	accesspackagecatalogroleassignment "github.com/upbound/provider-azuread/v2/internal/controller/cluster/accesspackages/accesspackagecatalogroleassignment"
+	accesspackageresourcecatalogassociation "github.com/upbound/provider-azuread/v2/internal/controller/cluster/accesspackages/accesspackageresourcecatalogassociation"
+	accesspackageresourcepackageassociation "github.com/upbound/provider-azuread/v2/internal/controller/cluster/accesspackages/accesspackageresourcepackageassociation"
 	member "github.com/upbound/provider-azuread/v2/internal/controller/cluster/administrativeunits/member"
 	unit "github.com/upbound/provider-azuread/v2/internal/controller/cluster/administrativeunits/unit"
 	roleassignment "github.com/upbound/provider-azuread/v2/internal/controller/cluster/app/roleassignment"
@@ -47,6 +53,12 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		accesspackage.Setup,
+		accesspackageassignmentpolicy.Setup,
+		accesspackagecatalog.Setup,
+		accesspackagecatalogroleassignment.Setup,
+		accesspackageresourcecatalogassociation.Setup,
+		accesspackageresourcepackageassociation.Setup,
 		member.Setup,
 		unit.Setup,
 		roleassignment.Setup,
@@ -91,6 +103,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		accesspackage.SetupGated,
+		accesspackageassignmentpolicy.SetupGated,
+		accesspackagecatalog.SetupGated,
+		accesspackagecatalogroleassignment.SetupGated,
+		accesspackageresourcecatalogassociation.SetupGated,
+		accesspackageresourcepackageassociation.SetupGated,
 		member.SetupGated,
 		unit.SetupGated,
 		roleassignment.SetupGated,

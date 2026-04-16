@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graph-patcher
+  namespace: upbound-system
+  labels:
+    app: graph-patcher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graph-patcher
+  template:
+    metadata:
+      labels:
+        app: graph-patcher
+    spec:
+      serviceAccountName: graph-patcher
+      containers:
+        - name: graph-patcher
+          image: graph-patcher:local
+          imagePullPolicy: Never
+          env:
+            - name: ARM_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graph-patcher-creds
+                  key: client_id
+            - name: ARM_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: graph-patcher-creds
+                  key: client_secret
+            - name: ARM_TENANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: graph-patcher-creds
+                  key: tenant_id
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: graph-patcher
+  namespace: upbound-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: graph-patcher
+rules:
+  - apiGroups: ["accesspackages.azuread.upbound.io"]
+    resources: ["accesspackageassignmentpolicies"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: graph-patcher
+subjects:
+  - kind: ServiceAccount
+    name: graph-patcher
+    namespace: upbound-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: graph-patcher
